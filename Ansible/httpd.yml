@@ -1,0 +1,22 @@
+- name: Configuring Apache Web Server on CentOS EC2 Instance
+  hosts: all
+  become: true
+  tasks:
+    - name: Installing HTTPD Package
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+    - name: Starting and Enabling HTTPD
+      ansible.builtin.systemd_service:
+        name: httpd
+        state: started
+        enabled: true
+    - name: Enabling Traffic on Port 80
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+    - name: Creating index.html File
+      ansible.builtin.lineinfile:
+        path: /var/www/html/index.html
+        content: "Hello from the EC2 Instance"
