@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage ('Provision') {
             steps {
-                sh "terraform plan"
-                sh "terraform apply -auto-approve"
+                dir('Terraform/') {
+                    sh "terraform plan"
+                    sh "terraform apply -auto-approve"
+                }
             }
         }
 
