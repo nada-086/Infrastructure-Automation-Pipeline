@@ -10,12 +10,12 @@ pipeline {
 
         stage ('Configuration') {
             steps {
-                echo "Destruction"
+                sh "echo Destruction"
             }
         }
 
         stage ('Destruction') {
-            echo "Destruction"
+            sh "echo Destruction"
         }
     }
 }
