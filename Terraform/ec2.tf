@@ -21,8 +21,8 @@ resource "aws_security_group" "ec2_http_sg" {
 }
 
 resource "aws_security_group" "ec2_egress_sg" {
-    name = "outgress traffic"
-    description = "Allowing All Outgress Traffic"
+    name = "egress traffic"
+    description = "Allowing All Egress Traffic"
     egress {
         from_port   = 0
         to_port     = 0

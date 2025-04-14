@@ -41,15 +41,15 @@ pipeline {
             }
         }
 
-        stage('Installing Necessary Ansible Modules') {
-            steps {
-                echo "INFO: Installing Necessary Ansible Modules"
-                dir('Ansible') {
-                    sh 'ansible-galaxy install -r requirements.yml'
-                }
-                echo "INFO: Installation Done"
-            }
-        }
+        // stage('Installing Necessary Ansible Modules') {
+        //     steps {
+        //         echo "INFO: Installing Necessary Ansible Modules"
+        //         dir('Ansible') {
+        //             sh 'ansible-galaxy install -r requirements.yml'
+        //         }
+        //         echo "INFO: Installation Done"
+        //     }
+        // }
 
         stage('Ansible Configuration') {
             steps {
