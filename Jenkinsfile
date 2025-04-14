@@ -51,6 +51,16 @@ webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible
             }
         }
 
+        stage('Installing Necessary Ansible Modules') {
+            steps {
+                echo "INFO: Installing Necessary Ansible Modules"
+                dir('Ansible') {
+                    sh 'ansible-galaxy install -r requirements.yml'
+                }
+                echo "INFO: Installation Done"
+            }
+        }
+
         stage('Ansible Configuration') {
             steps {
                 echo "INFO: Ansible Configuration Started"
