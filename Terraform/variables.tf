@@ -44,3 +44,8 @@ variable "instance_name" {
     description = "Instance Name Added as Tag"
     type = string
 }
+
+variable "ssh_security_group" {
+    description = "SSH Traffic Security Group"
+    type = string
+}
