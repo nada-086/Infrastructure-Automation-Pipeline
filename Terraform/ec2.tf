@@ -20,6 +20,17 @@ resource "aws_security_group" "ec2_http_sg" {
     }
 }
 
+resource "aws_security_group" "ec2_egress_sg" {
+    name = "outgress traffic"
+    description = "Allowing All Outgress Traffic"
+    egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
 resource "aws_instance" "jenkins_ec2" {
     ami                    = var.ami
     instance_type          = var.instance_type

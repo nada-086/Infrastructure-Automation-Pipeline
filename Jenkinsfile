@@ -41,18 +41,6 @@ pipeline {
             }
         }
 
-        stage('SSH Configuration') {
-            steps {
-                echo "INFO: SSH Configuration Started"
-                writeFile file: 'Ansible/inventory', text: """
-[web]
-webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=/home/centos/.ssh/jenkins-practice.pem
-                """
-                echo "INFO: SSH Configuration Finished"
-                sleep 120
-            }
-        }
-
         stage('Installing Necessary Ansible Modules') {
             steps {
                 echo "INFO: Installing Necessary Ansible Modules"
@@ -65,6 +53,16 @@ webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible
 
         stage('Ansible Configuration') {
             steps {
+                // Enabling SSH Connection
+                echo "INFO: SSH Configuration Started"
+                writeFile file: 'Ansible/inventory', text: """
+[web]
+webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=/home/centos/.ssh/jenkins-practice.pem
+                """
+                echo "INFO: SSH Configuration Finished"
+                sleep 120
+
+                // 
                 echo "INFO: Ansible Configuration Started"
                 dir('Ansible') {
                     sh '''
