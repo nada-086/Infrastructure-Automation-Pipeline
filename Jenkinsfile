@@ -18,6 +18,7 @@ pipeline {
                             export TF_VAR_secret_key=$AWS_SECRET_ACCESS_KEY
 
                             terraform init
+                            terraform plan
                             terraform apply -auto-approve
                         '''
                     }
@@ -55,7 +56,6 @@ webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible
         stage('Installing Necessary Ansible Modules') {
             steps {
                 echo "INFO: Installing Necessary Ansible Modules"
-                export ANSIBLE_HOST_KEY_CHECKING=False
                 dir('Ansible') {
                     sh 'ansible-galaxy install -r requirements.yml'
                 }

@@ -1,4 +1,4 @@
-- name: Configuring Apache Web Server on CentOS EC2 Instance
+- name: Configuring Apache Web Server on RedHat EC2 Instance
   hosts: all
   become: true
   tasks:
