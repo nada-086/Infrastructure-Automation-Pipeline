@@ -48,6 +48,7 @@ pipeline {
 webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=/home/centos/.ssh/jenkins-practice.pem
                 """
                 echo "INFO: SSH Configuration Finished"
+                sleep 120
             }
         }
 
