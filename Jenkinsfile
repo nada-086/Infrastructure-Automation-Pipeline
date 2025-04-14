@@ -34,7 +34,7 @@ pipeline {
                         script: "terraform -chdir=${TF_DIR} output -raw ec2_public_ip",
                         returnStdout: true
                     ).trim()
-                    env.EC2_PUBLIC_IP = output
+                    env.TF_VAR_ec2_public_ip = output
                 }
                 echo "EC2 Public IP: $EC2_PUBLIC_IP"
             }
