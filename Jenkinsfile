@@ -36,7 +36,7 @@ pipeline {
                     ).trim()
                     env.TF_VAR_ec2_public_ip = output
                 }
-                echo "EC2 Public IP: $EC2_PUBLIC_IP"
+                echo "EC2 Public IP: $TF_VAR_ec2_public_ip"
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
                 echo "INFO: SSH Configuration Started"
                 writeFile file: 'Ansible/inventory', text: """
 [web]
-webserver ansible_host=${env.EC2_PUBLIC_IP} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/jenkins-practice.pem
+webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/jenkins-practice.pem
                 """
                 echo "INFO: SSH Configuration Finished"
             }
