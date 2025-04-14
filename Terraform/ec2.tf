@@ -13,7 +13,7 @@ resource "aws_instance" "jenkins_ec2" {
     ami                    = var.ami
     instance_type          = var.instance_type
     key_name               = var.key_file
-    security_groups        = [var.ssh_security_group]
+    vpc_security_group_ids = [aws_security_group.ec2_ssh_sg.id]
     associate_public_ip_address = var.associate_public_ip_address
 
     tags = {
