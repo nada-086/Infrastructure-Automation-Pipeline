@@ -49,3 +49,8 @@ variable "ssh_security_group" {
     description = "SSH Traffic Security Group"
     type = string
 }
+
+variable "http_security_group" {
+    description = "http Traffic Security Group"
+    type = string
+}
