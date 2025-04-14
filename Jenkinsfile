@@ -41,37 +41,27 @@ pipeline {
             }
         }
 
-        // stage('Installing Necessary Ansible Modules') {
-        //     steps {
-        //         echo "INFO: Installing Necessary Ansible Modules"
-        //         dir('Ansible') {
-        //             sh 'ansible-galaxy install -r requirements.yml'
-        //         }
-        //         echo "INFO: Installation Done"
-        //     }
-        // }
-
         stage('Ansible Configuration') {
             steps {
-                // Enabling SSH Connection
                 echo "INFO: SSH Configuration Started"
+                withCredentials([file(credentialsId: 'ssh-key-file', variable: 'SSH_KEY_FILE')]) {
                 writeFile file: 'Ansible/inventory', text: """
-[web]
-webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=/home/centos/.ssh/jenkins-practice.pem
-                """
+webserver ansible_host=${env.TF_VAR_ec2_public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=${SSH_KEY_FILE}
+            """
                 echo "INFO: SSH Configuration Finished"
                 sleep 120
 
-                // 
                 echo "INFO: Ansible Configuration Started"
                 dir('Ansible') {
                     sh '''
+                        chmod 400 ${SSH_KEY_FILE}
                         ansible-playbook -i inventory httpd.yml
                     '''
                 }
                 echo "INFO: Ansible Configuration Finished"
             }
         }
+    }
 
         stage('Destruction') {
             steps {
