@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Provision') {
             steps {
+                echo "INFO: Provisioning Started"
                 withCredentials([usernamePassword(
                     credentialsId: 'aws_config',
                     usernameVariable: 'AWS_ACCESS_KEY_ID',
@@ -21,11 +22,13 @@ pipeline {
                         '''
                     }
                 }
+                echo "INFO: Provisioning Finished"
             }
         }
 
         stage('Fetch EC2 Public IP') {
             steps {
+                echo "INFO: Fetching EC2 Public IP"
                 script {
                     def output = sh(
                         script: "terraform -chdir=${TF_DIR} output -raw ec2_public_ip",
@@ -33,25 +36,30 @@ pipeline {
                     ).trim()
                     env.EC2_PUBLIC_IP = output
                 }
+                echo "EC2 Public IP: $EC2_PUBLIC_IP"
             }
         }
 
         stage('SSH Configuration') {
             steps {
+                echo "INFO: SSH Configuration Started"
                 writeFile file: 'Ansible/inventory', text: """
 [web]
-${env.EC2_PUBLIC_IP} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/jenkins-practice.pem
+webserver ansible_host=${env.EC2_PUBLIC_IP} ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/jenkins-practice.pem
                 """
+                echo "INFO: SSH Configuration Finished"
             }
         }
 
-        stage('Configuration') {
+        stage('Ansible Configuration') {
             steps {
+                echo "INFO: Ansible Configuration Started"
                 dir('Ansible') {
                     sh '''
                         ansible-playbook -i inventory httpd.yml
                     '''
                 }
+                echo "INFO: Ansible Configuration Finished"
             }
         }
 

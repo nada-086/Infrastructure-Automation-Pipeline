@@ -16,6 +16,10 @@ variable "region" {
 }
 
 # EC2 Configuration
+output "ec2_public_ip" {
+    value = aws_instance.public_ip
+}
+
 variable "ami" {
     description = "The ID of the Required AMI"
     type = string
@@ -34,4 +38,9 @@ variable "key_file" {
 variable "associate_public_ip_address" {
     description = "Associating Public IP Address to the Instance Controller"
     type = bool
+}
+
+variable "instance_name" {
+    description = "Instance Name Added as Tag"
+    type = string
 }

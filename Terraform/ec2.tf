@@ -5,6 +5,6 @@ resource "aws_instance" "example" {
     associate_public_ip_address = var.associate_public_ip_address
 
     tags = {
-        Name = "Terraform-EC2"
+        Name = var.instance_name
     }
 }
